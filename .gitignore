@@ -1,0 +1,26 @@
+# Configuration
+.env
+**/.env
+.env.release
+**/.env.release
+configs/server.crt
+configs/server.key
+
+# Depedencies
+/vendor/
+/venv/
+
+# Output
+/bin
+/bin/compile/
+/bin/debug/
+
+# IDEs
+/.idea/
+/.vscode/
+
+# Misc
+*.bak
+/.tmp/
+.DS_Store
+/tmp

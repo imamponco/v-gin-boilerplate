@@ -1,0 +1,46 @@
+definitions:
+  dto.GetHealth_Result:
+    properties:
+      appVersion:
+        example: v0.1.0
+        type: string
+      buildSignature:
+        example: 2b38f457-577f-423b-a7c0-16c50a86398c
+        type: string
+      serverTime:
+        example: "2023-03-14T22:59:10.155009095+07:00"
+        type: string
+      uptime:
+        example: 1m39.5398474s
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: imamtaufiqponco@gmail.co.id
+    name: Imam Taufiq Ponco Utomo
+  description: RBoilerplate - Service Using Gin Framework.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Boilerplate - Service Using Gin Framework
+  version: "1.0"
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: Get Health API Check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetHealth_Result'
+      summary: Get Health API
+      tags:
+      - Common
+schemes:
+- http
+swagger: "2.0"

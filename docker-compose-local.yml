@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  # ------------------------------
+  # Shared Backing Service
+  # ------------------------------
+  db:
+    container_name:  "d-${APP_NAME}-db"
+    command: postgres -c port=${DB_PORT}
+    image: postgres:13-alpine
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - "postgres-svc:/var/lib/postgresql/data"
+    networks:
+      - svc
+
+  # ----------------
+  # Services section
+  # ----------------
+  svc:
+    depends_on:
+      - db
+    container_name: "d-${APP_NAME}"
+    restart: always
+    env_file: .env
+    environment:
+      MAIN_DIR: "./app/${APP_NAME}"
+      TZ: "Asia/Jakarta"
+    build:
+      context: .
+      dockerfile: build/svc/Dockerfile
+      args:
+        ARG_PORT: "${PORT}"
+        ARG_DEBUG: "${DEBUG_PORT}"
+    ports:
+      - "127.0.0.1:${PORT}:${PORT}"
+      - "127.0.0.1:${DEBUG_PORT}:2345"
+    volumes:
+      - ./src/pkg:/usr/src/app/src/pkg
+      - ./src/dto:/usr/src/app/src/dto
+      - ./go.mod:/usr/src/app/go.mod
+      - ./go.sum:/usr/src/app/go.sum
+      - ./vendor:/usr/src/app/vendor
+      - ./docs:/usr/src/app/docs
+    working_dir: /usr/src/app
+    networks:
+      - svc
+
+networks:
+  svc:
+    driver: bridge
+    name: svc
+
+volumes:
+  postgres-svc:
