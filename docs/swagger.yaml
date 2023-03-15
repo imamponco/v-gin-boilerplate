@@ -14,7 +14,7 @@ definitions:
         example: 1m39.5398474s
         type: string
     type: object
-host: localhost:3000
+host: localhost:8000
 info:
   contact:
     email: imamtaufiqponco@gmail.co.id
